@@ -1,0 +1,361 @@
+/* =========================
+   NAVBAR MAIN
+========================= */
+
+* {
+
+    margin: 0;
+
+    padding: 0;
+
+    box-sizing: border-box;
+}
+
+
+html,
+body {
+
+    width: 100%;
+
+    overflow-x: hidden;
+}
+
+
+.navbar {
+
+    width: 100%;
+
+    background: var(--card-bg);
+
+    border-radius: 18px;
+
+    padding: 16px;
+
+    box-shadow: var(--shadow);
+
+    border: 1px solid rgba(255,255,255,0.08);
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 16px;
+
+    position: sticky;
+
+    top: 12px;
+
+    z-index: 100;
+}
+
+
+/* =========================
+   TOP SECTION
+========================= */
+
+.navbar-top {
+
+    width: 100%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 12px;
+}
+
+
+/* =========================
+   LOGO / TITLE
+========================= */
+
+.navbar-top h1 {
+
+    font-size: 22px;
+
+    font-weight: 700;
+
+    color: var(--text-color);
+
+    letter-spacing: 0.5px;
+}
+
+
+/* =========================
+   RIGHT ACTIONS
+========================= */
+
+.navbar-actions {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+}
+
+
+/* =========================
+   ICON BUTTONS
+========================= */
+
+.icon-btn {
+
+    width: 44px;
+
+    height: 44px;
+
+    border: none;
+
+    outline: none;
+
+    border-radius: 12px;
+
+    background: var(--bg-color);
+
+    color: var(--text-color);
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: center;
+
+    cursor: pointer;
+
+    transition: 0.3s ease;
+}
+
+
+.icon-btn:hover {
+
+    transform: translateY(-2px);
+
+    background: var(--button-bg);
+
+    color: var(--button-text);
+}
+
+
+/* =========================
+   SEARCH BAR
+========================= */
+
+.navbar-search {
+
+    width: 100%;
+
+    animation: fadeDown 0.3s ease;
+}
+
+
+.navbar-search input {
+
+    width: 100%;
+
+    height: 50px;
+
+    border: none;
+
+    outline: none;
+
+    border-radius: 14px;
+
+    padding: 0 16px;
+
+    font-size: 15px;
+
+    background: var(--bg-color);
+
+    color: var(--text-color);
+
+    transition: 0.3s ease;
+}
+
+
+.navbar-search input:focus {
+
+    border: 2px solid var(--button-bg);
+}
+
+
+.navbar-search input::placeholder {
+
+    color: #888;
+}
+
+
+/* =========================
+   MOBILE MENU SIDEBAR
+========================= */
+
+.mobile-menu {
+
+    position: fixed;
+
+    top: 20px;
+
+    right: 20px;
+
+    width: 70%;
+
+    max-width: 320px;
+
+    min-height: 220px;
+
+    background: var(--card-bg);
+
+    border-radius: 18px;
+
+    box-shadow: -4px 0 20px rgba(0,0,0,0.12);
+
+    padding: 24px 18px;
+
+    display: flex;
+
+    flex-direction: column;
+
+    gap: 18px;
+
+    z-index: 999;
+
+    animation: slideLeft 0.3s ease;
+}
+
+
+/* =========================
+   DESKTOP THEME
+========================= */
+
+.desktop-theme {
+
+    display: none;
+}
+
+
+/* =========================
+   ANIMATIONS
+========================= */
+
+@keyframes fadeDown {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateY(-10px);
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateY(0);
+    }
+}
+
+
+@keyframes slideLeft {
+
+    from {
+
+        opacity: 0;
+
+        transform: translateX(100%);
+    }
+
+    to {
+
+        opacity: 1;
+
+        transform: translateX(0);
+    }
+}
+
+
+/* =========================
+   TABLET +
+========================= */
+
+@media (min-width: 768px) {
+
+    .navbar {
+
+        padding: 18px 22px;
+
+        flex-direction: row;
+
+        align-items: center;
+
+        justify-content: space-between;
+    }
+
+    .navbar-top h1 {
+
+        font-size: 26px;
+    }
+
+    .desktop-theme {
+
+        display: block;
+    }
+
+    .mobile-menu-btn {
+
+        display: none;
+    }
+
+    .mobile-search-btn {
+
+        display: none;
+    }
+
+    .navbar-search {
+
+        width: 320px;
+    }
+
+    .mobile-menu {
+
+        width: 30%;
+    }
+}
+
+/* =========================
+   MENU OVERLAY
+========================= */
+
+.menu-overlay {
+
+    position: fixed;
+
+    top: 0;
+
+    left: 0;
+
+    width: 100%;
+
+    height: 100vh;
+
+    background: rgba(0,0,0,0.35);
+
+    backdrop-filter: blur(3px);
+
+    z-index: 998;
+
+    animation: fadeOverlay 0.3s ease;
+}
+@keyframes fadeOverlay {
+
+    from {
+
+        opacity: 0;
+    }
+
+    to {
+
+        opacity: 1;
+    }
+}

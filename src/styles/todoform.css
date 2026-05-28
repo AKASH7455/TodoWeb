@@ -1,0 +1,106 @@
+/* MOBILE FIRST */
+
+.todo-form {
+  width: 100%;
+
+  display: flex;
+ padding: 0 5px;
+
+
+  gap: 14px;
+
+  margin-top: 24px;
+}
+
+/* INPUT FIELD */
+
+.todo-input {
+  width: 160%;
+
+  padding: 15px 16px;
+
+  border: 2px solid #dcdcdc;
+  border-radius: 14px;
+
+  background-color: white;
+
+  font-size: 16px;
+  color: #222;
+
+  outline: none;
+
+  transition: all 0.3s ease;
+}
+
+/* PLACEHOLDER */
+
+.todo-input::placeholder {
+  color: #888;
+}
+
+/* INPUT FOCUS */
+
+.todo-input:focus {
+  border-color: #4f46e5;
+
+  box-shadow: 0 0 12px rgba(79, 70, 229, 0.2);
+}
+
+/* BUTTON */
+
+.add-btn {
+  width: 100%;
+
+  padding: 15px;
+
+  border: none;
+  border-radius: 14px;
+
+  background-color: #4f46e5;
+
+  color: white;
+
+  font-size: 15px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+}
+
+/* BUTTON HOVER */
+
+.add-btn:hover {
+  background-color: #4338ca;
+
+  transform: translateY(-2px);
+
+  box-shadow: 0 6px 14px rgba(79, 70, 229, 0.25);
+}
+
+/* BUTTON CLICK EFFECT */
+
+.add-btn:active {
+  transform: scale(0.98);
+}
+
+/* TABLET / DESKTOP */
+
+@media (min-width: 768px) {
+
+  .todo-form {
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .todo-input {
+    flex: 1;
+  }
+
+  .add-btn {
+    width: auto;
+
+    padding: 15px 24px;
+  }
+
+}

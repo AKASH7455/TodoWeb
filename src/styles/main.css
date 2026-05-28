@@ -1,0 +1,207 @@
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+/* =========================
+   ROOT VARIABLES
+========================= */
+
+:root {
+
+    --bg-color: #f5f7fb;
+
+    --text-color: #111827;
+
+    --card-bg: #ffffff;
+
+    --button-bg: #2563eb;
+
+    --button-hover: #1d4ed8;
+
+    --button-text: #ffffff;
+
+    --border-color: #dbe3ee;
+
+    --input-bg: #ffffff;
+
+    --input-text: #111827;
+
+    --placeholder-color: #6b7280;
+
+    --shadow:
+    0 4px 14px rgba(0,0,0,0.08);
+
+    --danger-color: #ef4444;
+
+    --success-color: #22c55e;
+}
+
+
+/* =========================
+   LIGHT THEME
+========================= */
+
+body.light {
+
+    --bg-color: #f5f7fb;
+
+    --text-color: #111827;
+
+    --card-bg: #ffffff;
+
+    --button-bg: #2563eb;
+
+    --button-hover: #1d4ed8;
+
+    --button-text: #ffffff;
+
+    --border-color: #dbe3ee;
+
+    --input-bg: #ffffff;
+
+    --input-text: #111827;
+
+    --placeholder-color: #6b7280;
+}
+
+
+/* =========================
+   DARK THEME
+========================= */
+
+body.dark {
+
+    --bg-color: #0f172a;
+
+    --text-color: #f9fafb;
+
+    --card-bg: #1e293b;
+
+    --button-bg: #3b82f6;
+
+    --button-hover: #2563eb;
+
+    --button-text: #ffffff;
+
+    --border-color: #334155;
+
+    --input-bg: #111827;
+
+    --input-text: #f9fafb;
+
+    --placeholder-color: #94a3b8;
+
+    --shadow:
+    0 4px 14px rgba(0,0,0,0.35);
+}
+
+
+/* =========================
+   MODERN THEME
+========================= */
+
+body.modern {
+
+    --bg-color:
+    linear-gradient(
+        135deg,
+        #667eea,
+        #764ba2
+    );
+
+    --text-color: #ffffff;
+
+    --card-bg:
+    rgba(255,255,255,0.12);
+
+    --button-bg:
+    rgba(255,255,255,0.2);
+
+    --button-hover:
+    rgba(255,255,255,0.3);
+
+    --button-text: #ffffff;
+
+    --border-color:
+    rgba(255,255,255,0.2);
+
+    --input-bg:
+    rgba(255,255,255,0.1);
+
+    --input-text: #242323;
+
+    --placeholder-color:
+    rgba(255,255,255,0.7);
+
+    --shadow:
+    0 8px 24px rgba(0,0,0,0.2);
+}
+
+
+/* =========================
+   GLOBAL BODY
+========================= */
+
+body {
+
+    min-height: 100vh;
+
+    font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+
+    background: var(--bg-color);
+
+    color: var(--text-color);
+
+    transition:
+    background 0.3s ease,
+    color 0.3s ease;
+}
+
+
+/* =========================
+   GLOBAL BUTTON STYLE
+========================= */
+
+button {
+
+    border: none;
+
+    outline: none;
+
+    cursor: pointer;
+
+    transition: 0.3s;
+}
+
+
+/* =========================
+   GLOBAL INPUT STYLE
+========================= */
+
+input {
+
+    outline: none;
+
+    border: 1px solid var(--border-color);
+
+    background: var(--input-bg);
+
+    color: var(--input-text);
+
+    transition: 0.3s;
+}
+
+.edit-btn{
+
+    border-color: var(--button-bg);
+}   
+input::placeholder {
+
+    color: var(--placeholder-color);
+}

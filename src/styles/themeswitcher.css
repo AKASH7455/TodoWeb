@@ -1,0 +1,32 @@
+.theme-switcher {
+  display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+}
+
+.theme-switcher button {
+    border: none;
+
+    padding: 10px 18px;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    font-size: 14px;
+    font-weight: 500;
+
+    transition: 0.3s;
+     display: flex;
+
+    flex-direction: column;
+
+    gap: 12px;
+}
+
+.active-theme {
+    background-color: black;
+    color: white;
+}
