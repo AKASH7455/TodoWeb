@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect} from "react";
 
 import Navbar from "./components/Navbar";
 import TodoForm from "./components/TodoForm";
@@ -13,13 +13,6 @@ import "./styles/main.css";
 
 function App() {
 
-  // TODOS STATE
-  const [todos, setTodos] =
-    useLocalStorage(
-      "todos",
-      []
-    );
-
 
   // FILTER STATE
   const [filter, setFilter] =
@@ -33,21 +26,36 @@ function App() {
     const [showSearch, setShowSearch]
   = useState(false);
 
+// TODOS STATE
+const [todos, setTodos] =
+  useLocalStorage(
+    "todos",
+    []
+  );
 
   // ADD TODO
-  function addTodo(text) {
+function addTodo(todoData) {
 
-    const newTodo = {
-      id: Date.now(),
-      text: text,
-      completed: false
-    };
+  const newTodo = {
 
-    setTodos([
-      ...todos,
-      newTodo
-    ]);
-  }
+    id: Date.now(),
+
+    text: todoData.text,
+
+    completed: false,
+
+    reminder: todoData.reminder,
+
+    notified: false
+
+  };
+
+  setTodos((prev) => [
+    newTodo,
+    ...prev
+  ]);
+
+}
 
 
   // DELETE TODO
@@ -103,37 +111,101 @@ function editTodo(id, newText) {
 
 
   // FILTER + SEARCH TODOS
-  const filteredTodos =
-    todos.filter((todo) => {
 
-      const matchesFilter =
+const filteredTodos =
+  todos.filter((todo) => {
 
-        filter === "all"
+    const matchesFilter =
 
-          ? true
+      filter === "all"
 
-          : filter === "completed"
+        ? true
 
-          ? todo.completed
+        : filter === "completed"
 
-          : !todo.completed;
+        ? todo.completed
 
+        : !todo.completed;
 
-      const matchesSearch =
+    const matchesSearch =
 
-        todo.text
-          .toLowerCase()
-          .includes(
-            search.toLowerCase()
-          );
+      todo.text
+        .toLowerCase()
+        .includes(
+          search.toLowerCase()
+        );
 
+    return (
+      matchesFilter &&
+      matchesSearch
+    );
 
-      return (
-        matchesFilter &&
-        matchesSearch
-      );
+  });
+
+    // REMINDER NOTIFICATION
+
+useEffect(() => {
+
+  const interval = setInterval(() => {
+
+    setTodos((prevTodos) => {
+
+      return prevTodos.map((todo) => {
+
+        if (
+          todo.reminder &&
+          !todo.notified &&
+          Date.now() >=
+          new Date(todo.reminder).getTime()
+        ) {
+
+          if (
+            Notification.permission ===
+            "granted"
+          ) {
+
+            new Notification(
+              "Todo Reminder",
+              {
+                body: todo.text
+              }
+            );
+
+          }
+
+          return {
+            ...todo,
+            notified: true
+          };
+
+        }
+
+        return todo;
+
+      });
 
     });
+
+  }, 1000);
+
+  return () => {
+    clearInterval(interval);
+  };
+
+}, [setTodos]);
+
+useEffect(() => {
+
+  if (
+    Notification.permission !==
+    "granted"
+  ) {
+
+    Notification.requestPermission();
+
+  }
+
+}, []);
 
 
   return (

@@ -1,30 +1,36 @@
-/* MOBILE FIRST */
+/* =========================
+   TODO FORM
+========================= */
 
 .todo-form {
+
   width: 100%;
 
   display: flex;
- padding: 0 5px;
+  flex-wrap: wrap;
 
-
-  gap: 14px;
+  gap: 12px;
 
   margin-top: 24px;
 }
 
-/* INPUT FIELD */
+/* =========================
+   TODO INPUT
+========================= */
 
 .todo-input {
-  width: 160%;
+
+  width: 100%;
 
   padding: 15px 16px;
 
   border: 2px solid #dcdcdc;
   border-radius: 14px;
 
-  background-color: white;
+  background: white;
 
   font-size: 16px;
+
   color: #222;
 
   outline: none;
@@ -32,31 +38,84 @@
   transition: all 0.3s ease;
 }
 
-/* PLACEHOLDER */
-
 .todo-input::placeholder {
+
   color: #888;
 }
 
-/* INPUT FOCUS */
-
 .todo-input:focus {
-  border-color: #4f46e5;
 
-  box-shadow: 0 0 12px rgba(79, 70, 229, 0.2);
+  border-color: #6366f1;
+
+  box-shadow:
+    0 0 12px
+    rgba(99, 102, 241, 0.2);
 }
 
-/* BUTTON */
+/* =========================
+   REMINDER
+========================= */
 
-.add-btn {
+.react-datepicker-wrapper {
+
+  flex: 1;
+
+  min-width: 180px;
+}
+
+.reminder-input {
+
   width: 100%;
 
-  padding: 15px;
+  padding: 15px 16px;
+
+  border: 2px solid #dcdcdc;
+  border-radius: 14px;
+
+  background: white;
+
+  font-size: 15px;
+
+  color: #222;
+
+  outline: none;
+
+  cursor: pointer;
+
+  transition: all 0.3s ease;
+}
+
+.reminder-input::placeholder {
+
+  color: #888;
+}
+
+.reminder-input:focus {
+
+  border-color: #6366f1;
+
+  box-shadow:
+    0 0 12px
+    rgba(99, 102, 241, 0.2);
+}
+
+/* =========================
+   ADD BUTTON
+========================= */
+
+.add-btn {
+
+  width: 110px;
 
   border: none;
   border-radius: 14px;
 
-  background-color: #4f46e5;
+  background:
+    linear-gradient(
+      135deg,
+      #6366f1,
+      #8b5cf6
+    );
 
   color: white;
 
@@ -68,39 +127,165 @@
   transition: all 0.3s ease;
 }
 
-/* BUTTON HOVER */
-
 .add-btn:hover {
-  background-color: #4338ca;
 
   transform: translateY(-2px);
 
-  box-shadow: 0 6px 14px rgba(79, 70, 229, 0.25);
+  box-shadow:
+    0 8px 20px
+    rgba(99, 102, 241, 0.35);
 }
-
-/* BUTTON CLICK EFFECT */
 
 .add-btn:active {
-  transform: scale(0.98);
+
+  transform: scale(0.97);
 }
 
-/* TABLET / DESKTOP */
+/* =========================
+   REACT DATE PICKER
+========================= */
 
-@media (min-width: 768px) {
+.react-datepicker {
 
-  .todo-form {
-    flex-direction: row;
-    align-items: center;
+  border: none !important;
+
+  border-radius: 20px !important;
+
+  overflow: hidden;
+
+  box-shadow:
+    0 15px 40px
+    rgba(0, 0, 0, 0.15) !important;
+}
+
+.react-datepicker__header {
+
+  background:
+    linear-gradient(
+      135deg,
+      #6366f1,
+      #8b5cf6
+    ) !important;
+
+  border-bottom: none !important;
+
+  padding: 16px !important;
+}
+
+.react-datepicker__current-month {
+
+  color: white !important;
+
+  font-size: 16px !important;
+
+  font-weight: 700 !important;
+}
+
+.react-datepicker__day-name {
+
+  color:
+    rgba(255,255,255,.9) !important;
+}
+
+.react-datepicker__navigation-icon::before {
+
+  border-color: white !important;
+}
+
+.react-datepicker__day {
+
+  border-radius: 10px;
+
+  transition: 0.2s ease;
+}
+
+.react-datepicker__day:hover {
+
+  background: #eef2ff !important;
+}
+
+.react-datepicker__day--selected {
+
+  background: #6366f1 !important;
+
+  color: white !important;
+
+  border-radius: 10px !important;
+}
+
+.react-datepicker__time-container {
+
+  border-left:
+    1px solid #ececec !important;
+}
+
+.react-datepicker__time-list-item--selected {
+
+  background: #6366f1 !important;
+
+  color: white !important;
+}
+
+/* =========================
+   MOBILE
+========================= */
+
+@media (max-width: 767px) {
+
+  .react-datepicker {
+
+    width: 95vw !important;
+
+    max-width: 340px !important;
   }
 
-  .todo-input {
+  .react-datepicker-popper {
+
+    z-index: 9999 !important;
+  }
+
+  .react-datepicker-wrapper {
+
     flex: 1;
   }
 
   .add-btn {
-    width: auto;
 
-    padding: 15px 24px;
+    width: 110px;
+
+    min-height: 54px;
+  }
+
+}
+
+/* =========================
+   DESKTOP
+========================= */
+
+@media (min-width: 768px) {
+
+  .todo-form {
+
+    display: grid;
+
+    grid-template-columns:
+      1fr
+      260px
+      120px;
+
+    align-items: center;
+  }
+
+  .react-datepicker-wrapper {
+
+    width: 100%;
+  }
+
+  .add-btn {
+
+    width: 120px;
+
+    height: 54px;
   }
 
 }

@@ -96,6 +96,15 @@ function TodoCard({
 
         </p>
 
+        {
+          todo.reminder && (
+            <p className="reminder-text">
+              <FaClock />
+              {new Date(todo.reminder).toLocaleString()}
+            </p>
+          )
+        }
+
       </div>
 
 
