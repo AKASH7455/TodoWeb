@@ -1,4 +1,4 @@
-import { useState, useEffect} from "react";
+import { useState, useEffect } from "react";
 
 import Navbar from "./components/Navbar";
 import TodoForm from "./components/TodoForm";
@@ -10,250 +10,290 @@ import useLocalStorage from "./hooks/useLocalStorage";
 
 import "./styles/main.css";
 
-
 function App() {
-
 
   // FILTER STATE
   const [filter, setFilter] =
     useState("all");
 
-
   // SEARCH STATE
   const [search, setSearch] =
     useState("");
 
-    const [showSearch, setShowSearch]
-  = useState(false);
-
-// TODOS STATE
-const [todos, setTodos] =
-  useLocalStorage(
-    "todos",
-    []
-  );
+  // TODOS STATE
+  const [todos, setTodos] =
+    useLocalStorage(
+      "todos",
+      []
+    );
 
   // ADD TODO
-function addTodo(todoData) {
+  function addTodo(todoData) {
 
-  const newTodo = {
+    const newTodo = {
 
-    id: Date.now(),
+      id: Date.now(),
 
-    text: todoData.text,
+      text: todoData.text,
 
-    completed: false,
+      completed: false,
 
-    reminder: todoData.reminder,
+      reminder: todoData.reminder,
 
-    notified: false
+      notified: false
 
-  };
+    };
 
-  setTodos((prev) => [
-    newTodo,
-    ...prev
-  ]);
+    setTodos((prev) => [
+      newTodo,
+      ...prev
+    ]);
 
-}
-
+  }
 
   // DELETE TODO
   function deleteTodo(id) {
 
-    const updatedTodos =
-      todos.filter((todo) => {
-        return todo.id !== id;
-      });
+    setTodos((prev) =>
+      prev.filter(
+        (todo) =>
+          todo.id !== id
+      )
+    );
 
-    setTodos(updatedTodos);
   }
-
 
   // TOGGLE TODO
   function toggleTodo(id) {
 
-    const updatedTodos =
-      todos.map((todo) => {
+    setTodos((prev) =>
+      prev.map((todo) =>
 
-        if (todo.id === id) {
+        todo.id === id
+          ? {
+              ...todo,
+              completed:
+                !todo.completed
+            }
+          : todo
 
-          return {
-            ...todo,
-            completed: !todo.completed
-          };
-        }
-
-        return todo;
-      });
-
-    setTodos(updatedTodos);
-  }
-  // EDIT TODO
-function editTodo(id, newText) {
-
-  const updatedTodos =
-    todos.map((todo) => {
-
-      if (todo.id === id) {
-
-        return {
-          ...todo,
-          text: newText
-        };
-      }
-
-      return todo;
-    });
-
-  setTodos(updatedTodos);
-}
-
-
-  // FILTER + SEARCH TODOS
-
-const filteredTodos =
-  todos.filter((todo) => {
-
-    const matchesFilter =
-
-      filter === "all"
-
-        ? true
-
-        : filter === "completed"
-
-        ? todo.completed
-
-        : !todo.completed;
-
-    const matchesSearch =
-
-      todo.text
-        .toLowerCase()
-        .includes(
-          search.toLowerCase()
-        );
-
-    return (
-      matchesFilter &&
-      matchesSearch
+      )
     );
 
-  });
+  }
 
-    // REMINDER NOTIFICATION
+  // EDIT TODO
+  function editTodo(
+    id,
+    newText
+  ) {
 
-useEffect(() => {
+    setTodos((prev) =>
+      prev.map((todo) =>
 
-  const interval = setInterval(() => {
+        todo.id === id
+          ? {
+              ...todo,
+              text: newText
+            }
+          : todo
 
-    setTodos((prevTodos) => {
+      )
+    );
 
-      return prevTodos.map((todo) => {
+  }
 
-        if (
-          todo.reminder &&
-          !todo.notified &&
-          Date.now() >=
-          new Date(todo.reminder).getTime()
-        ) {
+  // FILTER + SEARCH
+  const filteredTodos =
+    todos.filter((todo) => {
 
-          if (
-            Notification.permission ===
-            "granted"
-          ) {
+      const matchesFilter =
 
-            new Notification(
-              "Todo Reminder",
-              {
-                body: todo.text
+        filter === "all"
+
+          ? true
+
+          : filter ===
+            "completed"
+
+          ? todo.completed
+
+          : !todo.completed;
+
+      const matchesSearch =
+
+        todo.text
+          .toLowerCase()
+          .includes(
+            search.toLowerCase()
+          );
+
+      return (
+        matchesFilter &&
+        matchesSearch
+      );
+
+    });
+
+  // REQUEST NOTIFICATION
+  useEffect(() => {
+
+    if (
+      "Notification" in
+      window
+    ) {
+
+      Notification
+        .requestPermission();
+
+    }
+
+  }, []);
+
+  // REMINDER CHECK
+  useEffect(() => {
+
+    const interval =
+      setInterval(() => {
+
+        const currentTime =
+          Date.now();
+
+        setTodos((prevTodos) => {
+
+          let changed =
+            false;
+
+          const updatedTodos =
+            prevTodos.map(
+              (todo) => {
+
+                if (
+                  todo.reminder &&
+                  !todo.notified &&
+                  currentTime >=
+                  new Date(
+                    todo.reminder
+                  ).getTime()
+                ) {
+
+                  changed =
+                    true;
+
+                  if (
+                    "Notification" in
+                      window &&
+                    Notification.permission ===
+                      "granted"
+                  ) {
+
+                    new Notification(
+                      "Todo Reminder",
+                      {
+                        body:
+                          todo.text
+                      }
+                    );
+
+                  }
+
+                  return {
+
+                    ...todo,
+
+                    notified:
+                      true
+
+                  };
+
+                }
+
+                return todo;
+
               }
             );
 
-          }
+          return changed
+            ? updatedTodos
+            : prevTodos;
 
-          return {
-            ...todo,
-            notified: true
-          };
+        });
 
-        }
+      }, 1000);
 
-        return todo;
+    return () =>
+      clearInterval(
+        interval
+      );
 
-      });
-
-    });
-
-  }, 1000);
-
-  return () => {
-    clearInterval(interval);
-  };
-
-}, [setTodos]);
-
-useEffect(() => {
-
-  if (
-    Notification.permission !==
-    "granted"
-  ) {
-
-    Notification.requestPermission();
-
-  }
-
-}, []);
-
+  }, [setTodos]);
 
   return (
 
     <div>
 
       <Navbar
-  search={search}
-  setSearch={setSearch}
-/>
+        search={search}
+        setSearch={setSearch}
+      />
 
       <div className="container">
 
-        <TodoForm addTodo={addTodo} />
+        <TodoForm
+          addTodo={addTodo}
+        />
 
         <FilterButtons
           filter={filter}
-          setFilter={setFilter}
+          setFilter={
+            setFilter
+          }
         />
 
         {
           filteredTodos.length === 0
+
             ? (
               <EmptyState />
             )
-            : (
-              filteredTodos.map((todo, index) => {
 
-                return (
+            : (
+
+              filteredTodos.map(
+                (
+                  todo,
+                  index
+                ) => (
 
                   <TodoCard
                     key={todo.id}
                     todo={todo}
-                    number={index + 1}
-                    deleteTodo={deleteTodo}
-                    toggleTodo={toggleTodo}
-                    editTodo={editTodo}
+                    number={
+                      index + 1
+                    }
+                    deleteTodo={
+                      deleteTodo
+                    }
+                    toggleTodo={
+                      toggleTodo
+                    }
+                    editTodo={
+                      editTodo
+                    }
                   />
 
-                );
-              })
+                )
+              )
+
             )
         }
 
       </div>
 
     </div>
+
   );
+
 }
 
 export default App;
