@@ -30,3 +30,9 @@
     background-color: black;
     color: white;
 }
+@media (min-width: 720px) {
+    .theme-switcher {
+        flex-direction: row;
+        gap: 8px;
+    }
+}

@@ -1,5 +1,5 @@
 /* =========================
-   NAVBAR MAIN
+   RESET
 ========================= */
 
 * {
@@ -11,7 +11,6 @@
     box-sizing: border-box;
 }
 
-
 html,
 body {
 
@@ -20,6 +19,9 @@ body {
     overflow-x: hidden;
 }
 
+/* =========================
+   NAVBAR
+========================= */
 
 .navbar {
 
@@ -31,9 +33,9 @@ body {
 
     padding: 16px;
 
-    box-shadow: var(--shadow);
+    border: 1px solid rgba(255, 255, 255, 0.08);
 
-    border: 1px solid rgba(255,255,255,0.08);
+    box-shadow: var(--shadow);
 
     display: flex;
 
@@ -48,9 +50,8 @@ body {
     z-index: 100;
 }
 
-
 /* =========================
-   TOP SECTION
+   TOP BAR
 ========================= */
 
 .navbar-top {
@@ -66,9 +67,8 @@ body {
     gap: 12px;
 }
 
-
 /* =========================
-   LOGO / TITLE
+   TITLE
 ========================= */
 
 .navbar-top h1 {
@@ -82,9 +82,8 @@ body {
     letter-spacing: 0.5px;
 }
 
-
 /* =========================
-   RIGHT ACTIONS
+   ACTIONS
 ========================= */
 
 .navbar-actions {
@@ -93,9 +92,16 @@ body {
 
     align-items: center;
 
-    gap: 10px;
-}
+    justify-content: flex-end;
 
+    flex-direction: row;
+
+    gap: 10px;
+
+    flex-wrap: nowrap;
+
+    flex-shrink: 0;
+}
 
 /* =========================
    ICON BUTTONS
@@ -125,9 +131,8 @@ body {
 
     cursor: pointer;
 
-    transition: 0.3s ease;
+    transition: all 0.3s ease;
 }
-
 
 .icon-btn:hover {
 
@@ -137,7 +142,6 @@ body {
 
     color: var(--button-text);
 }
-
 
 /* =========================
    SEARCH BAR
@@ -149,7 +153,6 @@ body {
 
     animation: fadeDown 0.3s ease;
 }
-
 
 .navbar-search input {
 
@@ -170,48 +173,43 @@ body {
     background: var(--bg-color);
 
     color: var(--text-color);
-
-    transition: 0.3s ease;
 }
-
 
 .navbar-search input:focus {
 
     border: 2px solid var(--button-bg);
 }
 
-
 .navbar-search input::placeholder {
 
     color: #888;
 }
 
-
 /* =========================
-   MOBILE MENU SIDEBAR
+   MOBILE MENU
 ========================= */
 
 .mobile-menu {
 
     position: fixed;
 
-    top: 20px;
+    top: 40px;
 
     right: 20px;
 
-    width: 70%;
+    width: 50%;
 
     max-width: 320px;
 
-    min-height: 220px;
+    min-height: auto;
+
+    padding: 24px 18px;
 
     background: var(--card-bg);
 
     border-radius: 18px;
 
-    box-shadow: -4px 0 20px rgba(0,0,0,0.12);
-
-    padding: 24px 18px;
+    box-shadow: -4px 0 20px rgba(0, 0, 0, 0.12);
 
     display: flex;
 
@@ -224,7 +222,6 @@ body {
     animation: slideLeft 0.3s ease;
 }
 
-
 /* =========================
    DESKTOP THEME
 ========================= */
@@ -234,6 +231,30 @@ body {
     display: none;
 }
 
+/* =========================
+   OVERLAY
+========================= */
+
+.menu-overlay {
+
+    position: fixed;
+
+    top: 0;
+
+    left: 0;
+
+    width: 100%;
+
+    height: 100vh;
+
+    background: rgba(0, 0, 0, 0.35);
+
+    backdrop-filter: blur(3px);
+
+    z-index: 998;
+
+    animation: fadeOverlay 0.3s ease;
+}
 
 /* =========================
    ANIMATIONS
@@ -256,7 +277,6 @@ body {
     }
 }
 
-
 @keyframes slideLeft {
 
     from {
@@ -274,79 +294,6 @@ body {
     }
 }
 
-
-/* =========================
-   TABLET +
-========================= */
-
-@media (min-width: 768px) {
-
-    .navbar {
-
-        padding: 18px 22px;
-
-        flex-direction: row;
-
-        align-items: center;
-
-        justify-content: space-between;
-    }
-
-    .navbar-top h1 {
-
-        font-size: 26px;
-    }
-
-    .desktop-theme {
-
-        display: block;
-    }
-
-    .mobile-menu-btn {
-
-        display: none;
-    }
-
-    .mobile-search-btn {
-
-        display: none;
-    }
-
-    .navbar-search {
-
-        width: 320px;
-    }
-
-    .mobile-menu {
-
-        width: 30%;
-    }
-}
-
-/* =========================
-   MENU OVERLAY
-========================= */
-
-.menu-overlay {
-
-    position: fixed;
-
-    top: 0;
-
-    left: 0;
-
-    width: 100%;
-
-    height: 100vh;
-
-    background: rgba(0,0,0,0.35);
-
-    backdrop-filter: blur(3px);
-
-    z-index: 998;
-
-    animation: fadeOverlay 0.3s ease;
-}
 @keyframes fadeOverlay {
 
     from {
@@ -357,5 +304,68 @@ body {
     to {
 
         opacity: 1;
+    }
+}
+
+/* =========================
+   TABLET / DESKTOP
+========================= */
+
+@media (min-width: 768px) {
+
+    .navbar {
+
+        padding: 18px 24px;
+    }
+
+    .navbar-top {
+
+        width: 100%;
+
+        display: flex;
+
+        align-items: center;
+
+        justify-content: space-between;
+    }
+
+    .navbar-top h1 {
+
+        font-size: 28px;
+    }
+
+    .desktop-theme {
+
+        display: flex;
+
+        align-items: center;
+    }
+
+    .mobile-search-btn {
+
+        display: none;
+    }
+
+    .mobile-menu-btn {
+
+        display: none;
+    }
+
+    .navbar-search {
+
+        display: none;
+    }
+
+    .navbar-actions {
+
+        display: flex;
+
+        flex-direction: row;
+
+        align-items: center;
+
+        justify-content: flex-end;
+
+        gap: 12px;
     }
 }

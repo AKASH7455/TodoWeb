@@ -11,13 +11,19 @@ function TodoForm({ addTodo }) {
 
   }
 
+  function capitalizeWords(text) {
+
+  return text.charAt(0).toUpperCase() +
+         text.slice(1).toLowerCase();
+}
+
   function handleSubmit(event) {
 
     event.preventDefault();
 
     if(input.trim() === "") return;
 
-    addTodo(input);
+    addTodo(capitalizeWords(input));
 
     setInput("");
 
