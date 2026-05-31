@@ -54,24 +54,35 @@ function TodoForm({ addTodo }) {
         value={input}
         onChange={handleChange}
       />
-<DatePicker
-  selected={reminder}
-  onChange={(date) =>
-    setReminder(date)
-  }
-  showTimeSelect
-  dateFormat="dd MMM yyyy, h:mm aa"
-  placeholderText="Set Reminder"
-  className="reminder-input"
-  popperPlacement="bottom-start"
-/>
 
-<button
-  className="add-btn"
-  type="submit"
->
-  Add
-</button>
+      <div className="reminder-field">
+
+        <DatePicker
+          selected={reminder}
+          onChange={(date) =>
+            setReminder(date)
+          }
+          showTimeSelect
+          minDate={new Date()}
+          timeIntervals={5}
+          dateFormat="dd MMM yyyy, h:mm aa"
+          placeholderText="Set reminder"
+          className="reminder-input"
+          calendarClassName="todo-calendar"
+          popperClassName="todo-calendar-popper"
+          popperPlacement="bottom-start"
+          showPopperArrow={false}
+          isClearable
+        />
+
+      </div>
+
+      <button
+        className="add-btn"
+        type="submit"
+      >
+        Add
+      </button>
 
     </form>
 

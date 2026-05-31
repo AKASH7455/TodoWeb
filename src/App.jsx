@@ -27,8 +27,74 @@ function App() {
       []
     );
 
+  // REQUEST NOTIFICATION
+  async function requestNotificationPermission() {
+
+    if (
+      !("Notification" in
+        window)
+    ) {
+      return "unsupported";
+    }
+
+    if (
+      Notification.permission ===
+      "granted"
+    ) {
+      return "granted";
+    }
+
+    if (
+      Notification.permission ===
+      "denied"
+    ) {
+      return "denied";
+    }
+
+    return await Notification
+      .requestPermission();
+
+  }
+
+  // SHOW REMINDER
+  function showReminder(todo) {
+
+    if (
+      "Notification" in
+        window &&
+      Notification.permission ===
+        "granted"
+    ) {
+
+      new Notification(
+        "Todo Reminder",
+        {
+          body: todo.text,
+          tag: `todo-${todo.id}`
+        }
+      );
+
+      return;
+
+    }
+
+    if (
+      document.visibilityState ===
+      "visible"
+    ) {
+      alert(
+        `Todo Reminder: ${todo.text}`
+      );
+    }
+
+  }
+
   // ADD TODO
-  function addTodo(todoData) {
+  async function addTodo(todoData) {
+
+    if (todoData.reminder) {
+      await requestNotificationPermission();
+    }
 
     const newTodo = {
 
@@ -38,7 +104,11 @@ function App() {
 
       completed: false,
 
-      reminder: todoData.reminder,
+      reminder: todoData.reminder
+        ? new Date(
+            todoData.reminder
+          ).toISOString()
+        : null,
 
       notified: false
 
@@ -135,21 +205,6 @@ function App() {
 
     });
 
-  // REQUEST NOTIFICATION
-  useEffect(() => {
-
-    if (
-      "Notification" in
-      window
-    ) {
-
-      Notification
-        .requestPermission();
-
-    }
-
-  }, []);
-
   // REMINDER CHECK
   useEffect(() => {
 
@@ -180,22 +235,7 @@ function App() {
                   changed =
                     true;
 
-                  if (
-                    "Notification" in
-                      window &&
-                    Notification.permission ===
-                      "granted"
-                  ) {
-
-                    new Notification(
-                      "Todo Reminder",
-                      {
-                        body:
-                          todo.text
-                      }
-                    );
-
-                  }
+                  showReminder(todo);
 
                   return {
 

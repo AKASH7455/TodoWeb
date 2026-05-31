@@ -182,7 +182,7 @@ body {
 
 .navbar-search input::placeholder {
 
-    color: #888;
+    color: var(--placeholder-color);
 }
 
 /* =========================

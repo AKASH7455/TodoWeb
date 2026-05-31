@@ -13,9 +13,9 @@
   border: none;
   border-radius: 12px;
 
-  background-color: #e5e7eb;
+  background: var(--input-bg);
 
-  color: #374151;
+  color: var(--text-color);
 
   font-size: 15px;
   font-weight: 600;
@@ -28,13 +28,15 @@
 .filter-buttons button:hover {
   transform: translateY(-2px);
 
-  background-color: #d1d5db;
+  background: var(--button-hover);
+
+  color: var(--button-text);
 }
 
 .active-filter {
-  background-color: #4f46e5 !important;
+  background: var(--button-bg) !important;
 
-  color: white !important;
+  color: var(--button-text) !important;
 
   box-shadow:
     0 4px 12px rgba(79, 70, 229, 0.3);

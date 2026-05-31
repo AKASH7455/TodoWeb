@@ -4,7 +4,7 @@
     margin-top: 20px;
     padding: 40px 20px;
 
-    background-color: rgb(210, 223, 228);
+    background: var(--card-bg);
 
     border-radius: 16px;
 
@@ -17,7 +17,7 @@
     font-size: 24px;
     font-weight: 600;
 
-    color: #111827;
+    color: var(--text-color);
 
     margin-bottom: 10px;
 }
@@ -25,7 +25,7 @@
 .empty-state p {
     font-size: 15px;
 
-    color: #6b7280;
+    color: var(--placeholder-color);
 
     line-height: 1.5;
 }

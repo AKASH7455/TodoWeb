@@ -7,7 +7,7 @@
 body {
   padding: 12px;
 
-  background-color: #f5f7fb;
+  background: var(--bg-color);
 
   font-family: Arial, sans-serif;
 }
@@ -15,7 +15,7 @@ body {
 .todo-card {
   width: 100%;
 
-  background-color: white;
+  background: var(--card-bg);
 
   padding: 18px;
 
@@ -40,7 +40,7 @@ body {
 .todo-card h2 {
   font-size: 18px;
 
-  color: #1f2937;
+  color: var(--text-color);
 
   word-break: break-word;
 }
@@ -55,7 +55,7 @@ body {
   font-size: 14px;
   font-weight: 600;
 
-  color: #6366f1;
+  color: var(--text-color);
 }
 
 .reminder-text {
@@ -64,7 +64,7 @@ body {
   align-items: center;
   gap: 8px;
   font-size: 13px;
-  color: #6b7280;
+  color: var(--placeholder-color);
 }
 
 .completed-text {
