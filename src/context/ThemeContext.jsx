@@ -10,23 +10,12 @@ import ThemeContext
 function ThemeProvider({ children }) {
 
   const [theme, setTheme] =
-    useState(() => {
-
-      return (
-        localStorage.getItem("theme")
-        || "light"
-      );
-    });
+    useState("light");
 
 
   useEffect(() => {
 
     document.body.className = theme;
-
-    localStorage.setItem(
-      "theme",
-      theme
-    );
 
   }, [theme]);
 

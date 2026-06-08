@@ -205,3 +205,20 @@ input::placeholder {
 
     color: var(--placeholder-color);
 }
+
+.app-error,
+.app-status {
+    max-width: 700px;
+    margin: 16px auto;
+    padding: 12px 14px;
+    border-radius: 8px;
+    background: var(--card-bg);
+    color: var(--text-color);
+    box-shadow: var(--shadow);
+    text-align: center;
+}
+
+.app-error {
+    color: var(--danger-color);
+    border: 1px solid var(--danger-color);
+}

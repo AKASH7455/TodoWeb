@@ -5,6 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "server": "node server/server.js",
     "build": "vite build",
     "lint": "eslint .",
     "preview": "vite preview"
@@ -12,7 +13,9 @@
   "dependencies": {
     "@mui/material": "^9.0.1",
     "@mui/x-date-pickers": "^9.3.0",
+    "cors": "^2.8.5",
     "dayjs": "^1.11.21",
+    "express": "^5.2.1",
     "lucide-react": "^1.17.0",
     "react": "^19.2.6",
     "react-datepicker": "^9.1.0",

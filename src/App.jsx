@@ -6,9 +6,25 @@ import TodoCard from "./components/TodoCard";
 import FilterButtons from "./components/FilterButtons";
 import EmptyState from "./components/EmptyState";
 
-import useLocalStorage from "./hooks/useLocalStorage";
-
 import "./styles/main.css";
+
+async function apiRequest(url, options = {}) {
+  const response = await fetch(url, {
+    headers: {
+      "Content-Type": "application/json",
+      ...options.headers
+    },
+    ...options
+  });
+
+  const data = await response.json();
+
+  if (!response.ok) {
+    throw new Error(data.message || "Request failed");
+  }
+
+  return data;
+}
 
 function App() {
 
@@ -22,10 +38,38 @@ function App() {
 
   // TODOS STATE
   const [todos, setTodos] =
-    useLocalStorage(
-      "todos",
-      []
-    );
+    useState([]);
+
+  const [isLoading, setIsLoading] =
+    useState(true);
+
+  const [error, setError] =
+    useState("");
+
+  useEffect(() => {
+
+    async function loadTodos() {
+
+      try {
+        setIsLoading(true);
+        setError("");
+
+        const data = await apiRequest(
+          "/api/todos"
+        );
+
+        setTodos(data);
+      } catch (error) {
+        setError(error.message);
+      } finally {
+        setIsLoading(false);
+      }
+
+    }
+
+    loadTodos();
+
+  }, []);
 
   // REQUEST NOTIFICATION
   async function requestNotificationPermission() {
@@ -96,80 +140,128 @@ function App() {
       await requestNotificationPermission();
     }
 
-    const newTodo = {
-
-      id: Date.now(),
-
+    const todoPayload = {
       text: todoData.text,
-
-      completed: false,
-
       reminder: todoData.reminder
         ? new Date(
             todoData.reminder
           ).toISOString()
-        : null,
-
-      notified: false
-
+        : null
     };
 
-    setTodos((prev) => [
-      newTodo,
-      ...prev
-    ]);
+    try {
+      setError("");
+
+      const newTodo = await apiRequest(
+        "/api/todos",
+        {
+          method: "POST",
+          body: JSON.stringify(todoPayload)
+        }
+      );
+
+      setTodos((prev) => [
+        newTodo,
+        ...prev
+      ]);
+    } catch (error) {
+      setError(error.message);
+    }
 
   }
 
   // DELETE TODO
-  function deleteTodo(id) {
+  async function deleteTodo(id) {
 
-    setTodos((prev) =>
-      prev.filter(
-        (todo) =>
-          todo.id !== id
-      )
-    );
+    try {
+      setError("");
+
+      await apiRequest(
+        `/api/todos/${id}`,
+        {
+          method: "DELETE"
+        }
+      );
+
+      setTodos((prev) =>
+        prev.filter(
+          (todo) =>
+            todo.id !== id
+        )
+      );
+    } catch (error) {
+      setError(error.message);
+    }
 
   }
 
   // TOGGLE TODO
-  function toggleTodo(id) {
+  async function toggleTodo(id) {
 
-    setTodos((prev) =>
-      prev.map((todo) =>
+    const todoToUpdate =
+      todos.find(
+        (todo) =>
+          todo.id === id
+      );
 
-        todo.id === id
-          ? {
-              ...todo,
-              completed:
-                !todo.completed
-            }
-          : todo
+    if (!todoToUpdate) return;
 
-      )
-    );
+    try {
+      setError("");
+
+      const updatedTodo = await apiRequest(
+        `/api/todos/${id}`,
+        {
+          method: "PATCH",
+          body: JSON.stringify({
+            completed:
+              !todoToUpdate.completed
+          })
+        }
+      );
+
+      setTodos((prev) =>
+        prev.map((todo) =>
+          todo.id === id
+            ? updatedTodo
+            : todo
+        )
+      );
+    } catch (error) {
+      setError(error.message);
+    }
 
   }
 
   // EDIT TODO
-  function editTodo(
+  async function editTodo(
     id,
     newText
   ) {
 
-    setTodos((prev) =>
-      prev.map((todo) =>
+    try {
+      setError("");
 
-        todo.id === id
-          ? {
-              ...todo,
-              text: newText
-            }
-          : todo
+      const updatedTodo = await apiRequest(
+        `/api/todos/${id}`,
+        {
+          method: "PATCH",
+          body: JSON.stringify({
+            text: newText
+          })
+        }
+      );
 
-      )
-    );
+      setTodos((prev) =>
+        prev.map((todo) =>
+          todo.id === id
+            ? updatedTodo
+            : todo
+        )
+      );
+    } catch (error) {
+      setError(error.message);
+    }
 
   }
 
@@ -237,13 +329,23 @@ function App() {
 
                   showReminder(todo);
 
+                  apiRequest(
+                    `/api/todos/${todo.id}`,
+                    {
+                      method: "PATCH",
+                      body: JSON.stringify({
+                        notified: true
+                      })
+                    }
+                  ).catch((error) =>
+                    setError(
+                      error.message
+                    )
+                  );
+
                   return {
-
                     ...todo,
-
-                    notified:
-                      true
-
+                    notified: true
                   };
 
                 }
@@ -266,7 +368,7 @@ function App() {
         interval
       );
 
-  }, [setTodos]);
+  }, []);
 
   return (
 
@@ -291,7 +393,23 @@ function App() {
         />
 
         {
-          filteredTodos.length === 0
+          error && (
+            <p className="app-error">
+              {error}
+            </p>
+          )
+        }
+
+        {
+          isLoading
+
+            ? (
+              <p className="app-status">
+                Loading todos...
+              </p>
+            )
+
+            : filteredTodos.length === 0
 
             ? (
               <EmptyState />
